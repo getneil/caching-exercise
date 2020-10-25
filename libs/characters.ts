@@ -55,7 +55,9 @@ export async function updateCharacters() {
     console.log('upserting characters:', charactersToUpsert.length);
     await upsertCharacters(charactersToUpsert);
     await addNewLog();
-  } 
+  } else {
+    console.log('no characters to upsert');
+  }
 }
 
 // updateCharacters();
