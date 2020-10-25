@@ -7,17 +7,17 @@ import { updateCharacters } from './libs/syncer';
 
 const server = createServer(async (request: IncomingMessage, response: ServerResponse) => {
   console.log(`${request.method?.toUpperCase()} ${request.url} -> starting...`);
-
+  const method = request.method;
   const urlElements = request && request.url ? request.url.split('/') : [];
 
-  if (request.url === '/characters') {
+  if (method === 'get' && request.url === '/characters') {
     
     const ids = await getCharacterIds();
 
     response.setHeader('Content-Type','text/json');
     response.write(JSON.stringify(ids || []));
 
-  } else if (urlElements.length === 3) {
+  } else if (method === 'get' && urlElements.length === 3) {
 
     const characterId = urlElements[2];
     const character = await getCharacter(characterId);
@@ -29,7 +29,7 @@ const server = createServer(async (request: IncomingMessage, response: ServerRes
     response.write('please use GET /characters or GET /characters/:id');
   }
 
-  console.log(`${request.method?.toUpperCase()} ${request.url} -> end`);
+  console.log(`${method?.toUpperCase()} ${request.url} -> end`);
   response.end();
 });
 
