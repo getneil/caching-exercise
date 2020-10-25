@@ -10,7 +10,7 @@ export async function updateCharacters() {
   const limit = 100;
   let modifiedSince:string = '';
   if (lastLogUpdate !== null) {
-    modifiedSince = lastLogUpdate.toISOString();
+    modifiedSince = lastLogUpdate();
   }
 
   let keepLookingForCharacters = true;
@@ -58,7 +58,7 @@ export async function updateCharacters() {
   if (charactersToUpsert.length) {
     await upsertCharacters(charactersToUpsert);
     const latestModifiedDate = new Date(charactersToUpsert[0].modified);
-    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 1);
+    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 60); // limitation of marvel api
     await addNewLog(latestModifiedDate);
   } 
 }
