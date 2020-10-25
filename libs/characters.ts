@@ -32,6 +32,7 @@ export async function updateCharacters() {
       // retrieve a set of characters from marvel api
       const { total, count, results:characters = [] } = await getCharacters(params);
       console.log('total:', total);
+      console.log('characters:', characters);
       if (count < limit || !characters.length) {
         keepLookingForCharacters = false;
       }
