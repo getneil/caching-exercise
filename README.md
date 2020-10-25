@@ -24,4 +24,5 @@ Just wait for a few minutes until the terminal states that the server is running
 Depending on the speed of your internet on how fast the server can start
 
 ## API Documentation ##
-[]
+Access the Swagger documentation in the follow link make sure the server is running already
+[http://localhost:8080/api-docs](http://localhost:8080/api-docs)
