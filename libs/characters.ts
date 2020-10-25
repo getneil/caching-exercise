@@ -32,7 +32,6 @@ export async function updateCharacters() {
       // retrieve a set of characters from marvel api
       const { total, count, results:characters = [] } = await getCharacters(params);
       console.log('total:', total);
-      console.log('characters:', characters);
       if (count < limit || !characters.length) {
         keepLookingForCharacters = false;
       }
@@ -44,6 +43,7 @@ export async function updateCharacters() {
           charactersToUpsert.push(character);
         } else if (lastLogUpdate) {
           // it would mean there is no more  character that needs to be upserted
+          console.log('no more characters to > the last upsert date.');
           break;
         }
       }
@@ -58,10 +58,7 @@ export async function updateCharacters() {
   if (charactersToUpsert.length) {
     console.log('upserting characters:', charactersToUpsert.length);
     await upsertCharacters(charactersToUpsert);
-    const latestModifiedDate = new Date(charactersToUpsert[0].modified);
-    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 120); // limitation of marvel api
-    console.log(latestModifiedDate);
-    await addNewLog(latestModifiedDate);
+    await addNewLog();
   } 
 }
 
