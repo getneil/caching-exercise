@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import { getLatestLog, init } from './db';
+import { getLatestLog, upsertCharacters, addNewLog } from './db';
 import { getCharacters } from './marvel-api';
 
 
 export async function updateCharacters() {
-  await init();
   const lastLogUpdate:any = await getLatestLog();
 
   const limit = 100;
@@ -54,7 +53,11 @@ export async function updateCharacters() {
     }
   }
 
-  console.log(charactersToUpsert.length);
+  if (charactersToUpsert.length) {
+    await upsertCharacters(charactersToUpsert);
+    const latestModifiedDate = new Date(charactersToUpsert[0].modified);
+    await addNewLog(latestModifiedDate);
+  } 
 }
 
 updateCharacters();
