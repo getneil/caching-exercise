@@ -10,7 +10,7 @@ export async function updateCharacters() {
   const limit = 100;
   let modifiedSince:string = '';
   if (lastLogUpdate !== null) {
-    modifiedSince = lastLogUpdate();
+    modifiedSince = lastLogUpdate.toISOString();
   }
 
   let keepLookingForCharacters = true;
