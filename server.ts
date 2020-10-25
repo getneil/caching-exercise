@@ -12,15 +12,14 @@ const server = createServer((request: IncomingMessage, response: ServerResponse)
 });
 
 server.listen(port, async () => {
-  console.log(process.env);
   console.info(`server is now running on port ${port}.`);
   await init();
   console.log('database has been intialized');
 
   const minutes = +(process.env.UPDATE_INTERVAL_MINUTES || 30);
   const intervalMs =  minutes * 60 * 1000;
-  await updateCharacters();
   console.log(`regular character sync is happening every ${minutes} minutes`);
+  await updateCharacters();
   setInterval(async () => {
     await updateCharacters();
   }, intervalMs);
