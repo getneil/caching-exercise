@@ -1,0 +1,90 @@
+this is an efficient caching problem
+
+
+cache initialization:
+  paginate through all the characters
+  data store options:
+    redis? fast scallable but not enough indexing, you might need to parse json data later to compare
+    sqlite3? it just works then you can 
+      keep adding col later and 
+      update small amount of data, 
+      portable, you will not hassle whoever is testing this
+
+recaching strategies:
+  is there an event you can subscribe to? 
+    webhooks?
+    too bad NOPE there is none
+
+  brute force -> just keep looping through the character pages and updating your db
+    its the simplest solution
+    but what if there are thousands/millions of characters? 
+      its going to suck, it might take too much time to just keep updating/inserting
+
+  you need to segment the data neil
+    options:
+      creators?
+        it will do but what if Marvel ads a new creator you are adding additional layer of complexity Stupid!
+      alphanumeric nameStartWith
+        yeah segment them by 36 groups [a-z,0-9]
+        simplest approach
+        test it 
+    store the count per group in separate column
+
+  marvel states your are limited 3K requests per day
+    server is limited to 125 requests per hour OUCH 
+      measure the volume of requests
+    well its not like they create characters everyhour or everyday hahahahah
+    just cron it once a day or everyhour
+
+todo:
+  DONE - setup repo,node,ts
+
+  DONE - db design
+    characters
+      id
+      name
+      description
+      startsWith ? you might need to compare changes too?
+    
+    counter
+      id [a-z0-9]
+      count int // use this compare if count changes in the marvel api
+
+  marvel api library -> just make the endpoints you are using to work
+    test nameStartWith GET /characters
+    test getting specific character GET /characters/:character_id
+      - might be needed if character requested does not exist in your db so you
+        forward the request to the marvel api directly
+
+  sqlite3 db
+
+  init data
+    get all the characters pagination
+
+  node server
+    - express? nope just use http
+
+    GET /characters
+      just query the entire id in the sqlite3
+      return ids
+  
+    GET /characters/:character_id
+      query from db return results
+        if not exist
+          forward request to marvel
+          store data in db
+
+  nock service 
+    process.env.NODE_ENV=develop
+      intercept request of polling service to test whether changes happen add a fake character of your own
+
+  polling service
+    cron
+      count characters by 
+
+
+
+
+
+
+
