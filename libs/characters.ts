@@ -56,9 +56,10 @@ export async function updateCharacters() {
   }
 
   if (charactersToUpsert.length) {
+    console.log('upserting characters:', charactersToUpsert.length);
     await upsertCharacters(charactersToUpsert);
     const latestModifiedDate = new Date(charactersToUpsert[0].modified);
-    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 60); // limitation of marvel api
+    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 120); // limitation of marvel api
     console.log(latestModifiedDate);
     await addNewLog(latestModifiedDate);
   } 
