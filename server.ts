@@ -1,10 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { createServer, IncomingMessage, ServerResponse } from 'http';
+import express from 'express';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './swagger';
 import { init, getCharacterIds, getCharacter } from './libs/db';
 import { updateCharacters } from './libs/syncer';
 
+/*
 const server = createServer(async (request: IncomingMessage, response: ServerResponse) => {
   console.log(`${request.method?.toUpperCase()} ${request.url} -> starting...`);
   const method = request.method;
@@ -32,6 +35,34 @@ const server = createServer(async (request: IncomingMessage, response: ServerRes
   console.log(`${method?.toUpperCase()} ${request.url} -> end`);
   response.end();
 });
+*/
+const app: express.Application = express();
+app.get('/', (req,res) => {
+  res.send(`
+    please use:
+      GET /characters 
+      GET /characters/:characterId
+    
+    or visit /api-docs
+  `);
+});
+
+app.get('/characters', async (req, res) => {
+  const ids = await getCharacterIds();
+  res.status(200).json(ids || []);
+});
+
+app.get('/characters/:characterId', async (req, res) => {
+  const { characterId } = req.params;
+  const character = await getCharacter(characterId);
+  if (character) {
+    res.json(character);
+  } else {
+    res.status(404).send('character not found.');
+  }
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 async function start() {
   console.log('db initializing');
@@ -52,7 +83,7 @@ async function start() {
   }, intervalMs);
 
   const port = process.env.PORT || 8080;
-  server.listen(port, () => {
+  app.listen(port, () => {
     console.info(`server is now running on port ${port}.`);
   });
 }

@@ -12,6 +12,7 @@ PUBLIC_KEY=XXXX
 PRIVATE_KEY=zzzzz
 DB_PATH=./marvel_character_cache.db
 UPDATE_INTERVAL_MINUTES=5
+PORT=8080
 ```
 Make sure the user has write permission to the directory value of `DB_PATH`
 
@@ -22,3 +23,5 @@ Make sure the user has write permission to the directory value of `DB_PATH`
 Just wait for a few minutes until the terminal states that the server is running
 Depending on the speed of your internet on how fast the server can start
 
+## API Documentation ##
+[]
