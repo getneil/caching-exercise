@@ -49,13 +49,15 @@ export async function updateCharacters() {
       loopCount++;
     } catch (error) {
       console.error(error);
-      keepLookingForCharacters = false;
+      // aparently marvel api is a bit slow and error prone or maybe my internet is bad
+      // enable retry 
     }
   }
 
   if (charactersToUpsert.length) {
     await upsertCharacters(charactersToUpsert);
     const latestModifiedDate = new Date(charactersToUpsert[0].modified);
+    latestModifiedDate.setSeconds(latestModifiedDate.getSeconds() + 1);
     await addNewLog(latestModifiedDate);
   } 
 }
