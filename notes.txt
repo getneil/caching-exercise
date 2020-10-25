@@ -28,7 +28,9 @@ recaching strategies:
         yeah segment them by 36 groups [a-z,0-9]
         simplest approach
         test it 
-    store the count per group in separate column
+
+      modifiedSince: modified date
+        IS A MORE PRACTICAL QUERY!!!!
 
   marvel states your are limited 3K requests per day
     server is limited to 125 requests per hour OUCH 
@@ -44,19 +46,23 @@ todo:
       id
       name
       description
-      startsWith ? you might need to compare changes too?
-    
-    counter
-      id [a-z0-9]
-      count int // use this compare if count changes in the marvel api
 
-  marvel api library -> just make the endpoints you are using to work
-    test nameStartWith GET /characters
+    update_logs
+      id: int
+      lastUpdate: timestamp
+
+  DONE - marvel api library -> just make the endpoints you are using to work
+    test  GET /characters ?modifiedSince
     test getting specific character GET /characters/:character_id
       - might be needed if character requested does not exist in your db so you
         forward the request to the marvel api directly
 
   sqlite3 db
+    done init() create table if not exist
+    getCharacterIds()
+    upsertCharacters([char])
+    addNewLog()
+    getLatestLog()
 
   init data
     get all the characters pagination

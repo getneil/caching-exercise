@@ -2,19 +2,19 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import crypto from 'crypto';
 import * as _ from 'lodash';
 
-const PUBLIC_KEY:string='1507fc349df5755790d1f2709ed6e6aa';
-const PRIVATE_KEY:string='e8de33df1c1613f5e7b1938c3c740f4f1856fcb5';
-
 const marvelHttpClient = axios.create({
   baseURL: 'http://gateway.marvel.com/v1/public',
   params: {
-    apikey: PUBLIC_KEY,
+    apikey: process.env.PUBLIC_KEY,
   }
 });
 
 marvelHttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
   const ts:number = +new Date();
-  const hash:string = [ts,PRIVATE_KEY,PUBLIC_KEY].join('');
+  const hash:string = [
+    ts,
+    process.env.PRIVATE_KEY,
+    process.env.PUBLIC_KEY].join('');
 
   config.params['ts'] = ts;
   config.params['hash'] = crypto.createHash('md5').update(hash).digest('hex');
@@ -22,7 +22,7 @@ marvelHttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
   return config;
 });
 
-// the only expected value for params for now is { nameStartsWith: '[a-z0-9]' }
+// the only expected value for params for now is { modifiedSince: date }
 export async function getCharacters(params = {}) {
   const response:AxiosResponse = await marvelHttpClient.get('/characters', {
     params: {
@@ -40,8 +40,9 @@ export async function getCharacter(characterId:any) {
 
 // async function start() {
 //   const result = await getCharacters({
-//     nameStartsWith: 'a',
+//     modifiedSince: new Date(),
 //   });
+//   console.log(result);
 // }
 
 // start();
