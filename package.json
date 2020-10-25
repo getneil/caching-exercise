@@ -6,7 +6,7 @@
   "scripts": {
     "test": "",
     "tsc": "tsc",
-    "start": "node server.js"
+    "start": "npm run tsc && node server.js"
   },
   "author": "neil molina",
   "license": "ISC",

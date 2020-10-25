@@ -64,10 +64,10 @@ todo:
     addNewLog()
     getLatestLog()
 
-  init data
+  DONE init data
     get all the characters pagination
 
-  node server
+  DONE node server
     - express? nope just use http
 
     GET /characters
@@ -80,11 +80,7 @@ todo:
           forward request to marvel
           store data in db
 
-  nock service 
-    process.env.NODE_ENV=develop
-      intercept request of polling service to test whether changes happen add a fake character of your own
-
-  polling service
+  DONE - polling service
     cron
       count characters by 
 

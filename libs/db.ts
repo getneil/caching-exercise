@@ -36,6 +36,11 @@ export async function getCharacterIds() {
   return ids;
 }
 
+export async function getCharacter(id:any) {
+  const result = await db.prepare('SELECT * FROM characters WHERE id=?;').get(id);
+  return result; 
+}
+
 // insert a new timestamp, only used to update on when the characters table was last updated
 export async function addNewLog() {
   const logQuery = db.prepare('INSERT INTO update_logs (lastUpdate) VALUES (?)');
