@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
+dotenv.config();
+
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { init } from './libs/db';
 import { updateCharacters } from './libs/characters';
-
-dotenv.config();
 
 const port = process.env.PORT || 8080;
 
