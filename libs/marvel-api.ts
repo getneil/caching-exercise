@@ -24,13 +24,16 @@ marvelHttpClient.interceptors.request.use((config: AxiosRequestConfig) => {
 
 // the only expected value for params for now is { modifiedSince: date }
 export async function getCharacters(params = {}) {
-  const response:AxiosResponse = await marvelHttpClient.get('/characters', {
-    params: {
-      limit: 100,
-      ...params,
-    }
-  });
-  return _.get(response,'data.data', null);
+  console.log(params);
+  try {
+    console.log('requesting....')
+    const response:AxiosResponse = await marvelHttpClient.get('/characters', { params });
+    console.log('done...');
+    return _.get(response,'data.data', null);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 export async function getCharacter(characterId:any) {

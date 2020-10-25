@@ -57,7 +57,7 @@ todo:
       - might be needed if character requested does not exist in your db so you
         forward the request to the marvel api directly
 
-  sqlite3 db
+  DONE - sqlite3 db
     done init() create table if not exist
     getCharacterIds()
     upsertCharacters([char])

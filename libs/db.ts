@@ -37,9 +37,9 @@ export async function getCharacterIds() {
 }
 
 // insert a new timestamp, only used to update on when the characters table was last updated
-export async function addNewLog() {
+export async function addNewLog(ts:Date) {
   const logQuery = db.prepare('INSERT INTO update_logs (lastUpdate) VALUES (?)');
-  const lastUpdate = +new Date();
+  const lastUpdate = ts ? +ts : +new Date();
   await logQuery.run(lastUpdate);
 }
 
