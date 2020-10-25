@@ -14,10 +14,13 @@ const server = createServer((request: IncomingMessage, response: ServerResponse)
 server.listen(port, async () => {
   console.log(process.env);
   console.info(`server is now running on port ${port}.`);
-  init();
+  await init();
+  console.log('database has been intialized');
 
-  const intervalMs = +(process.env.UPDATE_INTERVAL_MINUTES || 30) * 60 * 1000;
+  const minutes = +(process.env.UPDATE_INTERVAL_MINUTES || 30);
+  const intervalMs =  minutes * 60 * 1000;
   await updateCharacters();
+  console.log(`regular character sync is happening every ${minutes} minutes`);
   setInterval(async () => {
     await updateCharacters();
   }, intervalMs);
