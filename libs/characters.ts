@@ -59,4 +59,4 @@ export async function updateCharacters() {
   } 
 }
 
-updateCharacters();
+// updateCharacters();
