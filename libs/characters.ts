@@ -1,8 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import { getLatestLog, upsertCharacters, addNewLog } from './db';
 import { getCharacters } from './marvel-api';
-
 
 export async function updateCharacters() {
   const lastLogUpdate:any = await getLatestLog();
